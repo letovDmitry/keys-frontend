@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Authorization from './components/Authorization';
-import Client from './components/Client';
-import Main from './components/Main';
-import Product from './components/Product';
-import Signup from './components/Signup';
-import Subtype from './components/Subtype';
-import logo from './logo.svg';
-import History from './components/History';
-import Profile from './components/Profile';
+import Authorization from './Components/Authorization';
+import Client from './Components/Client';
+import Main from './Components/Main';
+import Product from './Components/Product';
+import Signup from './Components/Signup';
+import History from './Components/History';
+import Profile from './Components/Profile';
 
 function App() {
   const [ isAuthorized, setIsAuthorized ] = useState(false)
@@ -16,7 +14,6 @@ function App() {
   useEffect(() => {
     document.title = 'plati.market';
     const token = localStorage.getItem('jwt')
-    
     
     if (token) {
       setIsAuthorized(true)

@@ -8,8 +8,6 @@ const token = localStorage.getItem('jwt')
 const Api = axios.create({
     baseURL,
     headers: {'Authorization': `Bearer ${ token }`},
-
-
 })
 
 export { Api }
