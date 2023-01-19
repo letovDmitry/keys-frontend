@@ -15,7 +15,7 @@ function Signup() {
     const navigate = useNavigate()
 
     const handleSignup = () => {
-        Api.post('/auth/sign-up', { firstname: firstName, lastname: lastName, seller_id, seller_key, username: login, password }).then(r => {
+        Api.post('/auth/sign-up', { firstname: firstName, lastname: lastName, seller_id: parseInt(seller_id), seller_key, username: login, password }).then(r => {
             navigate('/signin')
             window.location.reload();
         }).catch(e => console.error(e))

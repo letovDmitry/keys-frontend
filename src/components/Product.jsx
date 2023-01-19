@@ -25,15 +25,14 @@ function Product() {
     const { id } = useParams()
     
     useEffect(() => {
-        Api.get('/seller/products/' + id).then(r => {
+        Api.get('/seller/category/' + id).then(r => {
             setTitle(r.data.title)
-            setSubtypes(r.data.subtypes)
-
+            setSubtypes(r.data.subcategories)
         })
     }, [])
 
     const handleAddSubtype = () => {
-        Api.post('/seller/products/' + id + '/subtypes', {title: name}).then(r => console.log(r.data))
+        Api.post('/seller/category/' + id, {title: name}).then(r => console.log(r.data))
         setName('')
 
         Api.get('/seller/products/' + id).then(r => {
@@ -111,15 +110,17 @@ function Product() {
                             <Col span={8}>
                                 <Card
                                     style={{ width: '100%' }}
-                                    title={ isChangingName[1] & isChangingName[0] === i.subtype_id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
-                                        Api.patch(`seller/products/${id}/subtypes/${i.subtype_id}`, { title: newName })
+                                    title={ isChangingName[1] & isChangingName[0] === i.subitem_id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
+                                        Api.patch(`seller/category/${id}/subcategory/${i.id}`, { title: newName })
+                                        console.log(id)
+                                        console.log(i.id)
                                         setIsChangingName([0, false])
                                         window.location.reload();
 
-                                    }} ><CheckOutlined /></Button> </> : i.subtype_title}
+                                    }} ><CheckOutlined /></Button> </> : i.title}
                                     extra={
                                         <>
-                                            { isChangingName[1] & isChangingName[0] === i.subtype_id ? 
+                                            { isChangingName[1] & isChangingName[0] === i.subitem_id ? 
                                                 <Button onClick={() => {
                                                     setIsChangingName(false)
                                                 }} danger style={{ marginRight: 10 }}>Отмена</Button>
@@ -128,24 +129,26 @@ function Product() {
                                             : 
                                             
                                                 <Button onClick={() => {
-                                                    setIsChangingName([i.subtype_id, true])
+                                                    setIsChangingName([i.subitem_id, true])
                                                 }} danger style={{ marginRight: 10 }}>Изменить</Button>
                                             }
                                             
-                                            <Button onClick={() => {
-                                                Api.delete(`/seller/products/${id}/subtypes/${i.subtype_id}`)
-                                            }} danger style={{ marginRight: 10 }}>Удалить</Button>
-                                            { isAddingKey[0] && (isAddingKey[1] === i.subtype_id) ? <><Input style={{ width: 170 }} value={key} onChange={(e) => setKey(e.target.value)} placeholder='Введите через пробел' /> <Button type='primary' style={{ marginTop: 10, marginBottom: 10 }} onClick={() => setIsAddingKey([false, isAddingKey[1]])} danger>Отмена</Button> <Button type='primary' onClick={() => handleAddKey(i.subtype_id)} style={{ marginTop: 10, marginBottom: 10 }}>Добавить</Button> </> : <Button type='primary' onClick={() => setIsAddingKey([true, i.subtype_id])} ghost>Добавить</Button> }
+                                            <Link to={`/seller/products/${id}/keys/${i.id}`}>Перейти</Link>
+
+                                            {/* <Button onClick={() => {
+                                                Api.delete(`/seller/products/${id}/subtypes/${i.subitem_id}`)
+                                            }} danger style={{ marginRight: 10 }}>Удалить</Button> */}
+                                            {/* { isAddingKey[0] && (isAddingKey[1] === i.subitem_id) ? <><Input style={{ width: 170 }} value={key} onChange={(e) => setKey(e.target.value)} placeholder='Введите через пробел' /> <Button type='primary' style={{ marginTop: 10, marginBottom: 10 }} onClick={() => setIsAddingKey([false, isAddingKey[1]])} danger>Отмена</Button> <Button type='primary' onClick={() => handleAddKey(i.subitem_id)} style={{ marginTop: 10, marginBottom: 10 }}>Добавить</Button> </> : <Button type='primary' onClick={() => setIsAddingKey([true, i.subitem_id])} ghost>Добавить</Button> } */}
                                         </>
                                     }
                                 >
-                                    <b>Ключи: </b>
-                                    { i.keys ? i.keys.map(k => <>
+                                    <b>Ключи: {i.count_products}</b>
+                                    {/* { i.keys ? i.keys.map(k => <>
                                         { isChangingKey[1] & isChangingKey[0] === k.key_id ? 
                                             <>
                                                 <Input value={newKey} onChange={(e) => setNewKey(e.target.value)} style={{ marginTop: 10 }} placeholder='Изменить ключ' />
                                                 <Button onClick={() => {
-                                                    Api.patch(`/seller/products/${id}/subtypes/${i.subtype_id}/keys/${k.key_id}`, { key: newKey })
+                                                    Api.patch(`/seller/products/${id}/subtypes/${i.subitem_id}/keys/${k.key_id}`, { key: newKey })
                                                     window.location.reload();
                                                 }} style={{ marginRight: 10, marginTop: 10 }} size='small'><CheckOutlined /></Button>
                                                 <Button onClick={() => setIsChangingKey([0, false])} style={{ marginRight: 10, marginTop: 10 }} size='small'><CloseOutlined /></Button>
@@ -158,12 +161,12 @@ function Product() {
                                             </>
                                         }
                                         <Button onClick={() => {
-                                            Api.delete(`/seller/products/${id}/subtypes/${i.subtype_id}/keys/${k.key_id}`)
+                                            Api.delete(`/seller/products/${id}/subtypes/${i.subitem_id}/keys/${k.key_id}`)
                                             window.location.reload();
 
                                         }} size='small' danger>Удалить</Button>
                                     
-                                    </>) : <></> }
+                                    </>) : <></> } */}
                                 </Card>
                             </Col>
                             <Col span={8}>

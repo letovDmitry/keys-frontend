@@ -13,22 +13,26 @@ function Main() {
     const [ sellerkey, setSellerkey ] = useState('')
 
     const [ isChangingSettings, setIsChangingSettings ] = useState(false)
-    const [ name, setName ] = useState('')
+
+    const [ nameRU, setNameRU ] = useState('')
+    const [ nameENG, setNameENG ] = useState('')
+    const [ itemId, setItemId ] = useState('')
+    const [ description, setDescription ] = useState('')
     
     const [ isChangingName, setIsChangingName ] = useState([0, false])
 
     const [ newName, setNewName ] = useState('')
 
     useEffect(() => {
-        Api.get('/seller/products').then(r => setProducts(r.data))
+        Api.get('/seller/category').then(r => setProducts(r.data))
     }, [])
 
     const handleAddProduct = () => {
-        Api.post('/seller/products', {product_title: name}, {withCredentials: true}).then(r => console.log(r.data))
-        setName('')
-
-        Api.get('/seller/products').then(r => setProducts(r.data))
-
+        Api.post('/seller/category', {title_ru: nameRU, title_eng: nameENG, itemId: parseInt(itemId), description}, {withCredentials: true}).then(r => console.log(r.data))
+        setNameRU('')
+        setNameENG('')
+        setItemId('')
+        setDescription('')
     }
 
     const handleStartAdding = () => {
@@ -62,9 +66,14 @@ function Main() {
                         <Col span={8}>
 
                             
-                            { isAdding ? <><Input value={name} onChange={e => setName(e.target.value)} onPressEnter={handleAddProduct} placeholder="Введите наименование" />
-                                <Button style={{ marginTop: 10, marginRight: 10 }} onClick={handleAddProduct} type="primary">Добавить</Button>
-                                <Button type="primary" danger onClick={handleStopAdding}>Отмена</Button></> : <Button type="primary" block onClick={handleStartAdding}>Добавить</Button> }
+                            { isAdding ? 
+                                <>
+                                    <Input value={nameRU} onChange={e => setNameRU(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите наименование на русском" />
+                                    <Input value={nameENG} onChange={e => setNameENG(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите наименование на английском" />
+                                    <Input value={description} onChange={e => setDescription(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите описание товара" />
+                                    <Input value={itemId} onChange={e => setItemId(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите id товара" />
+                                    <Button style={{ marginTop: 10, marginRight: 10 }} onClick={handleAddProduct} type="primary">Добавить</Button>
+                                    <Button type="primary" danger onClick={handleStopAdding}>Отмена</Button></> : <Button type="primary" block onClick={handleStartAdding}>Добавить</Button> }
 
                                 
                                 { isChangingSettings ? 
@@ -103,12 +112,12 @@ function Main() {
                                 <Card
                                     style={{ width: '100%' }}
                                     title={ isChangingName[1] & isChangingName[0] === i.product_id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
-                                        Api.patch(`/seller/products/${i.product_id}`, { product_title: newName })
-                                        window.location.reload();
-                                    }}><CheckOutlined /></Button> </> : i.product_title}
+                                        Api.patch(`/seller/category/${i.id}`, { title_ru: newName })
+                                        // window.location.reload();
+                                    }}><CheckOutlined /></Button> </> : i.title_ru}
                                     extra={
                                         <>
-                                            <Link style={{ marginRight: 20 }} to={`/seller/products/${i.product_id}`}>Перейти</Link>
+                                            <Link style={{ marginRight: 20 }} to={`/seller/products/${i.id}`}>Перейти</Link>
                                             { isChangingName[1] & isChangingName[0] === i.product_id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.product_id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
                                             
                                             <Button onClick={() => {
@@ -118,7 +127,8 @@ function Main() {
                                 
                                 }
                                 >
-                                    <p>{`Количество подтипов: ${i.count_subtypes}`}</p>
+                                    <p>{`Количество подтипов: ${i.count_subcategories}`}</p>
+                                    <p>{`Описание: ${i.description}`}</p>
                                 </Card>
                             </Col>
                             <Col span={8}>

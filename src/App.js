@@ -7,6 +7,7 @@ import Product from './Components/Product';
 import Signup from './Components/Signup';
 import History from './Components/History';
 import Profile from './Components/Profile';
+import Keys from './Components/Keys';
 
 function App() {
   const [ isAuthorized, setIsAuthorized ] = useState(false)
@@ -32,6 +33,7 @@ function App() {
 
           <Route path='/seller/products/' element={<Main />} />
           <Route path='/seller/products/:id/' element={<Product />} />
+          <Route path='/seller/products/:id/keys/:sid' element={<Keys />} />
           <Route path='/seller/history/' element={<History />} />
           <Route path='/profile/' element={<Profile />} />
           <Route path='/product/:username/get' element={<Client />} />
