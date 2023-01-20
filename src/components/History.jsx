@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Col, Row, Button, Input } from 'antd'
 import { Api } from '../api/api'
+import { Link } from 'react-router-dom'
 
 
 function History() {
     const [ history, setHistory ] = useState({})
 
     useEffect(() => {
-        Api.get('/seller/history').then(r => setHistory(r.data.history))
+        Api.get('/seller/history').then(r => setHistory(r.data))
     }, [])
 
     return (
@@ -19,7 +20,7 @@ function History() {
                 <Card
                     title="Продукты"
                 >
-                    { history?.products ? history.products.map(i => <Card style={{ marginBottom: 20 }} title={i.product_title}>{ i.subtypes ? i.subtypes.map(s => <Card style={{ marginBottom: 20 }} title={s.subtype_title}> {s.keys ? s.keys.map(k => <p>{k.key_content} • {k.date_check} • {k.email}</p>) : <></>} </Card>) : <></>}</Card>) : <></> }
+                    { history?.transactions ? history.transactions.map(i => <Card extra={`${i.date_check}`} style={{ marginBottom: 20 }} title={<Link to={`/seller/history/transaction/${i.id}`}>${i.category_name} - ${i.subcategory_name}</Link>}>{i.content_key} - {i.amount_usd}$</Card>) : <></> }
                 </Card>
             </Card>
         </>

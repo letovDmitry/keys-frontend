@@ -28,7 +28,7 @@ function Main() {
     }, [])
 
     const handleAddProduct = () => {
-        Api.post('/seller/category', {title_ru: nameRU, title_eng: nameENG, itemId: parseInt(itemId), description}, {withCredentials: true}).then(r => console.log(r.data))
+        Api.post('/seller/category', {title_ru: nameRU, title_eng: nameENG, itemId: parseInt(itemId), description}, ).then(r => console.log(r.data))
         setNameRU('')
         setNameENG('')
         setItemId('')
@@ -95,7 +95,8 @@ function Main() {
                                     <Button onClick={handleAddSeller} type="primary"><PlusOutlined /></Button>
                                 </>
                             
-                            : <Button onClick={handleStartChangingSettings} type="primary"><SettingOutlined /></Button> }
+                            // : <Button onClick={handleStartChangingSettings} type="primary"><SettingOutlined /></Button> }
+                            : <></> }
                             <Button style={{ marginLeft: 10 }}><Link to="/seller/history">История</Link></Button>
 
                             

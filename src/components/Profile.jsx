@@ -8,7 +8,7 @@ function Profile() {
 
     useEffect(() => {
 
-        Api.get('/profile').then(r => setProfile(r.data))
+        Api.get('/seller/info').then(r => setProfile(r.data))
 
     }, [])
 

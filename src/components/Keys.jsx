@@ -51,7 +51,7 @@ function Keys() {
                                     <TextArea value={content} onChange={e => setContent(e.target.value)} style={{ marginTop: 10 }} placeholder="Введите ключи" autoSize />
                                     <Button onClick={() => setIsAddingKeys(false)} style={{ marginRight: 10, marginTop: 10 }}>x</Button>
                                     <Button onClick={() => {
-                                        Api.post(`/seller/category/${id}/subcategory/${sid}/${howManyKeys}`, { content: content.replace(' ', ' \n ') } )
+                                        Api.post(`/seller/category/${id}/subcategory/${sid}/${howManyKeys}`, { content: content.replace(' ', '\n ') } )
                                         setContent('')
                                         // window.location.reload()
                                     }}>+</Button>
