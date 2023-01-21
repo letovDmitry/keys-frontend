@@ -33,6 +33,7 @@ function Main() {
         setNameENG('')
         setItemId('')
         setDescription('')
+        window.location.reload()
     }
 
     const handleStartAdding = () => {
@@ -122,7 +123,9 @@ function Main() {
                                             { isChangingName[1] & isChangingName[0] === i.product_id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.product_id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
                                             
                                             <Button onClick={() => {
-                                                Api.delete(`/seller/products/${i.product_id}`)
+                                                Api.delete(`/seller/category/${i.id}`).then(() => {
+                                                    window.location.reload()
+                                                })
                                             }} danger>Удалить</Button>
                                         </>
                                 

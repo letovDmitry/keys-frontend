@@ -9,6 +9,7 @@ import History from './Components/History';
 import Profile from './Components/Profile';
 import Keys from './Components/Keys';
 import Transaction from './Components/Transaction';
+import { Api } from './api/api';
 
 function App() {
   const [ isAuthorized, setIsAuthorized ] = useState(false)
@@ -18,7 +19,11 @@ function App() {
     const token = localStorage.getItem('jwt')
     
     if (token) {
-      setIsAuthorized(true)
+      Api.get('seller/me').then(r => setIsAuthorized(true)).catch(e => {
+        setIsAuthorized(false)
+        localStorage.deleteItem('jwt')
+      })
+
     } else {
       setIsAuthorized(false)
     }

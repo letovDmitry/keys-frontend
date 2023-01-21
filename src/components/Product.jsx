@@ -13,6 +13,7 @@ function Product() {
     const [ name, setName ] = useState('')
     const [ key, setKey ] = useState('')
     const [ title, setTitle ] = useState('')
+    const [ digiid, setDigiid ] = useState('')
 
     const [ isChangingName, setIsChangingName ] = useState([0, false])
 
@@ -32,18 +33,10 @@ function Product() {
     }, [])
 
     const handleAddSubtype = () => {
-        Api.post('/seller/category/' + id, {title: name}).then(r => console.log(r.data))
+        Api.post('/seller/category/' + id, {title: name, subitem_id: parseInt(digiid)}).then(r => console.log(r.data))
         setName('')
 
-        Api.get('/seller/products/' + id).then(r => {
-            setSubtypes(r.data.subtypes)
-        })
-    }
-
-    const handleAddKey = (Id) => {
-        Api.post('/seller/products/' + id + '/subtypes/' + Id, {keys: key}).then(r => console.log(r.data))
-        setKey('')
-        setIsAddingKey([false, isAddingKey[1]])
+        window.location.reload()
     }
 
     const handleStartAdding = () => {
@@ -79,7 +72,8 @@ function Product() {
                             <Col span={8}>
                             </Col>
                             <Col span={8}>
-                                <Input value={name} onChange={e => setName(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите наименование" />
+                                <Input style={{ marginBottom: 10 }} value={name} onChange={e => setName(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите наименование" />
+                                <Input value={digiid} onChange={e => setDigiid(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите DigiId" />
                                 <Button style={{ marginTop: 10, marginRight: 10 }} onClick={handleAddSubtype} type="primary">Добавить</Button>
                                 <Button type="primary" danger onClick={handleStopAdding}>Отмена</Button>
                                 
@@ -132,6 +126,11 @@ function Product() {
                                                     setIsChangingName([i.subitem_id, true])
                                                 }} danger style={{ marginRight: 10 }}>Изменить</Button>
                                             }
+
+                                                <Button onClick={() => {
+                                                    Api.delete(`/seller/category/${id}/subcategory/${i.id}`)
+                                                    window.location.reload()
+                                                }} danger style={{ marginRight: 10 }}>Удалить</Button>
                                             
                                             <Link to={`/seller/products/${id}/keys/${i.id}`}>Перейти</Link>
 

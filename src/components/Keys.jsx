@@ -53,16 +53,16 @@ function Keys() {
                                     <Button onClick={() => {
                                         Api.post(`/seller/category/${id}/subcategory/${sid}/${howManyKeys}`, { content: content.replace(' ', '\n ') } )
                                         setContent('')
-                                        // window.location.reload()
+                                        window.location.reload()
                                     }}>+</Button>
                                 </>
                                 
                             :
 
-                            <></>
+                            <Button type="primary" onClick={() => setIsAddingKeys(true)} style={{ width: '100%', marginTop: 10 }}>Добавить</Button>
+                            // <></>
 
                         }
-                        <Button type="primary" onClick={() => setIsAddingKeys(true)} style={{ width: '100%', marginTop: 10 }}>Добавить</Button>
                     </Col>
                     <Col span={8}>
                         <Button onClick={() => window.history.back()}>Назад</Button>
@@ -112,8 +112,14 @@ function Keys() {
                                         setNewTitle('')
                                         window.location.reload()
                                     }}>+</Button></> :`Ключ ${i.id}`}
-                                    extra={
-                                        <Button onClick={() => setIsChangingKey([ i.id, true ])} style={{ margin: 10 }}>Обновить</Button>
+                                    extra={<>
+                                            <Button onClick={() => setIsChangingKey([ i.id, true ])} style={{ margin: 10 }}>Обновить</Button>
+                                            <Button danger onClick={() => {
+                                                Api.delete(`/seller/category/${id}/subcategory/${sid}/products/${i.id}`).then(() => {
+                                                    window.location.reload()
+                                                })
+                                            }}>Удалить</Button>
+                                        </>
                                     }
                                 >
                                     <p>{i.content}</p>
