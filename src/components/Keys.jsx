@@ -111,7 +111,7 @@ function Keys() {
                                         Api.patch(`/seller/category/${id}/subcategory/${sid}/products/${i.id}`, { content: newTitle }).then(r => console.log(r.data))
                                         setNewTitle('')
                                         window.location.reload()
-                                    }}>+</Button></> :`Ключ ${i.id}`}
+                                    }}>+</Button></> :`Ключ`}
                                     extra={<>
                                             <Button onClick={() => setIsChangingKey([ i.id, true ])} style={{ margin: 10 }}>Обновить</Button>
                                             <Button danger onClick={() => {
