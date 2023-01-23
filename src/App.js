@@ -37,11 +37,11 @@ function App() {
       
         <Routes>
 
-          <Route path='/seller/products/' element={<Main />} />
-          <Route path='/seller/products/:id/' element={<Product />} />
-          <Route path='/seller/products/:id/keys/:sid' element={<Keys />} />
-          <Route path='/seller/history/' element={<History />} />
-          <Route path='/seller/history/transaction/:id' element={<Transaction />} />
+          <Route path='/' element={<Main />} />
+          <Route path='/:id/' element={<Product />} />
+          <Route path='/:id/keys/:sid' element={<Keys />} />
+          <Route path='/history/' element={<History />} />
+          <Route path='/history/transaction/:id' element={<Transaction />} />
           <Route path='/profile/' element={<Profile />} />
           <Route path='/product/:username' element={<Client />} />
         

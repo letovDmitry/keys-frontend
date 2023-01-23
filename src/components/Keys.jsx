@@ -65,7 +65,7 @@ function Keys() {
                         }
                     </Col>
                     <Col span={8}>
-                        <Button onClick={() => window.history.back()}>Назад</Button>
+                        <Link to={`/${id}`}><Button>Назад</Button></Link>
                     </Col> 
                 </Row>
                 

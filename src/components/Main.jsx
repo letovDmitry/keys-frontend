@@ -119,7 +119,7 @@ function Main() {
                                     }}><CheckOutlined /></Button> </> : i.title_ru}
                                     extra={
                                         <>
-                                            <Link style={{ marginRight: 20 }} to={`/seller/products/${i.id}`}>Перейти</Link>
+                                            <Link style={{ marginRight: 20 }} to={`/${i.id}`}>Перейти</Link>
                                             { isChangingName[1] & isChangingName[0] === i.product_id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.product_id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
                                             
                                             <Button onClick={() => {

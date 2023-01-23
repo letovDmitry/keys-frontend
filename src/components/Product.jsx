@@ -61,7 +61,7 @@ function Product() {
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Button onClick={() => window.history.back()}>Назад</Button>
+                        <Link to="/"><Button>Назад</Button></Link>
                     </Col> 
                 </Row>
                 
@@ -132,7 +132,7 @@ function Product() {
                                                     window.location.reload()
                                                 }} danger style={{ marginRight: 10 }}>Удалить</Button>
                                             
-                                            <Link to={`/seller/products/${id}/keys/${i.id}`}>Перейти</Link>
+                                            <Link to={`/${id}/keys/${i.id}`}>Перейти</Link>
 
                                             {/* <Button onClick={() => {
                                                 Api.delete(`/seller/products/${id}/subtypes/${i.subitem_id}`)
