@@ -13,7 +13,7 @@ function Client() {
 
     useEffect(() => {
         document.body.style.backgroundColor = '#679ED2'
-        Api.get(`/product/${username}/get?uniquecode=${searchParams.get('uniquecode')}`).then((r) => setProduct(r.data))
+        Api.get(`/client/${username}?uniquecode=${searchParams.get('uniquecode')}`).then((r) => setProduct({ keys: r.data }))
     }, [])
 
     return (
@@ -26,16 +26,19 @@ function Client() {
                 extra={ <Button><a href='https://oplata.info/info/'>Оставить отзыв</a></Button> }
                                     
             >
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-
-                    <p style={{ fontSize: 15 }}>{`Дата: ${product.keys ? product.keys[0].date_check : 0}`}   •   Продукт: {`${product.product_title} • Подтип: ${product.subtype_title}`} • {`Количество: ${product.keys ? product.keys.length : 0}`} • {`Email: ${product.keys ? product.keys[0].email : 0}`}</p>
-                </div>
                 <Card
                     style={{ width: '100%', backgroundColor: '#04396C', color: 'white' }}
                     title={<p style={{ color: 'white' }}>Ключи</p>}
                                     
                 >
-                    { product.keys ? product.keys.map(i => <p>{i.key_content}</p>) : <></> }
+                    { product.keys ? product.keys.map(i => <>
+                    
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+
+                            <p style={{ fontSize: 15 }}>{`Дата: ${i.date_check}`}   •   Продукт: {`${i.category} • Подтип: ${i.subcategory}`}</p>
+                        </div>
+                        <p>{i.content}</p>
+                    </>) : <></> }
                 
                 </Card>
             </Card> 

@@ -43,7 +43,7 @@ function App() {
           <Route path='/seller/history/' element={<History />} />
           <Route path='/seller/history/transaction/:id' element={<Transaction />} />
           <Route path='/profile/' element={<Profile />} />
-          <Route path='/product/:username/get' element={<Client />} />
+          <Route path='/product/:username' element={<Client />} />
         
         </Routes>
         : 
@@ -52,7 +52,7 @@ function App() {
 
           <Route path='/signin' element={<Authorization />} />
           <Route path='/signup' element={<Signup />} />
-          <Route path='/product/:username/get' element={<Client />} />
+          <Route path='/product/:username' element={<Client />} />
         
         </Routes>
       }
