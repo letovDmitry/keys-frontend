@@ -20,7 +20,7 @@ function History() {
                 <Card
                     title="Продукты"
                 >
-                    { history?.transactions ? history.transactions.map(i => <Card extra={`${i.date_check}`} style={{ marginBottom: 20 }} title={<Link to={`/seller/history/transaction/${i.id}`}>{i.category_name} - {i.subcategory_name} ● {i.client_email} ● {i.unique_code}</Link>}>{i.content_key} - {i.amount_usd}$</Card>) : <></> }
+                    { history?.transactions ? history.transactions.map(i => <Card extra={`${i.date_check}`} style={{ marginBottom: 20 }} title={<Link to={`/seller/history/transaction/${i.id}`}>{i.category_name} - {i.subcategory_name} ● {i.client_email} ● {i.unique_code}</Link>}>{i.content_key} - {i.amount_usd}₽</Card>) : <></> }
                 </Card>
             </Card>
         </>
