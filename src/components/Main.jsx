@@ -98,7 +98,7 @@ function Main() {
                             
                             // : <Button onClick={handleStartChangingSettings} type="primary"><SettingOutlined /></Button> }
                             : <></> }
-                            <Button style={{ marginLeft: 10 }}><Link to="/seller/history">История</Link></Button>
+                            <Button style={{ marginLeft: 10 }}><Link to="/history">История</Link></Button>
 
                             
                         </Col> 
