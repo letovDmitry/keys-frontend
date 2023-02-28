@@ -10,7 +10,8 @@ function Product() {
     const [ subtypes, setSubtypes ] = useState([])
     const [ isAdding, setIsAdding ] = useState(false)
     const [ isAddingKey, setIsAddingKey ] = useState([false, 0])
-    const [ name, setName ] = useState('')
+    const [ nameRu, setNameRu ] = useState('')
+    const [ nameEng, setNameEng ] = useState('')
     const [ key, setKey ] = useState('')
     const [ title, setTitle ] = useState('')
     const [ digiid, setDigiid ] = useState('')
@@ -33,8 +34,9 @@ function Product() {
     }, [])
 
     const handleAddSubtype = () => {
-        Api.post('/seller/category/' + id, {title: name, subitem_id: parseInt(digiid)}).then(r => console.log(r.data))
-        setName('')
+        Api.post('/seller/category/' + id, {title_eng: nameEng, title_ru: nameRu, subitem_id: parseInt(digiid)}).then(r => console.log(r.data))
+        setNameRu('')
+        setNameEng('')
 
         window.location.reload()
     }
@@ -72,7 +74,8 @@ function Product() {
                             <Col span={8}>
                             </Col>
                             <Col span={8}>
-                                <Input style={{ marginBottom: 10 }} value={name} onChange={e => setName(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите наименование" />
+                                <Input style={{ marginBottom: 10 }} value={nameRu} onChange={e => setNameRu(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите наименование на русском" />
+                                <Input style={{ marginBottom: 10 }} value={nameEng} onChange={e => setNameEng(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите наименование на английском" />
                                 <Input value={digiid} onChange={e => setDigiid(e.target.value)} onPressEnter={handleAddSubtype} placeholder="Введите DigiId" />
                                 <Button style={{ marginTop: 10, marginRight: 10 }} onClick={handleAddSubtype} type="primary">Добавить</Button>
                                 <Button type="primary" danger onClick={handleStopAdding}>Отмена</Button>
@@ -104,17 +107,17 @@ function Product() {
                             <Col span={8}>
                                 <Card
                                     style={{ width: '100%' }}
-                                    title={ isChangingName[1] & isChangingName[0] === i.subitem_id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
+                                    title={ (isChangingName[1] & (isChangingName[0] === i.id)) ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
                                         Api.patch(`seller/category/${id}/subcategory/${i.id}`, { title: newName })
                                         console.log(id)
                                         console.log(i.id)
                                         setIsChangingName([0, false])
                                         window.location.reload();
 
-                                    }} ><CheckOutlined /></Button> </> : i.title}
+                                    }} ><CheckOutlined /></Button> </> : `${i.title_ru} - ${i.title_eng}`}
                                     extra={
                                         <>
-                                            { isChangingName[1] & isChangingName[0] === i.subitem_id ? 
+                                            { (isChangingName[1] & (isChangingName[0] === i.id)) ? 
                                                 <Button onClick={() => {
                                                     setIsChangingName(false)
                                                 }} danger style={{ marginRight: 10 }}>Отмена</Button>
@@ -123,7 +126,7 @@ function Product() {
                                             : 
                                             
                                                 <Button onClick={() => {
-                                                    setIsChangingName([i.subitem_id, true])
+                                                    setIsChangingName([i.id, true])
                                                 }} danger style={{ marginRight: 10 }}>Изменить</Button>
                                             }
 
@@ -142,6 +145,7 @@ function Product() {
                                     }
                                 >
                                     <b>Ключи: {i.count_products}</b>
+                                    <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                     {/* { i.keys ? i.keys.map(k => <>
                                         { isChangingKey[1] & isChangingKey[0] === k.key_id ? 
                                             <>

@@ -18,6 +18,7 @@ function Main() {
     const [ nameENG, setNameENG ] = useState('')
     const [ itemId, setItemId ] = useState('')
     const [ description, setDescription ] = useState('')
+    const [ message, setMessage ] = useState('')
     
     const [ isChangingName, setIsChangingName ] = useState([0, false])
 
@@ -28,7 +29,7 @@ function Main() {
     }, [])
 
     const handleAddProduct = () => {
-        Api.post('/seller/category', {title_ru: nameRU, title_eng: nameENG, itemId: parseInt(itemId), description}, ).then(r => console.log(r.data))
+        Api.post('/seller/category', {message, title_ru: nameRU, title_eng: nameENG, itemId: parseInt(itemId), description}, ).then(r => console.log(r.data))
         setNameRU('')
         setNameENG('')
         setItemId('')
@@ -72,6 +73,7 @@ function Main() {
                                     <Input value={nameRU} onChange={e => setNameRU(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите наименование на русском" />
                                     <Input value={nameENG} onChange={e => setNameENG(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите наименование на английском" />
                                     <Input value={description} onChange={e => setDescription(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите описание товара" />
+                                    <Input value={message} onChange={e => setMessage(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите сообщение" />
                                     <Input value={itemId} onChange={e => setItemId(e.target.value)} onPressEnter={handleAddProduct} style={{ marginBottom: 10 }} placeholder="Введите id товара" />
                                     <Button style={{ marginTop: 10, marginRight: 10 }} onClick={handleAddProduct} type="primary">Добавить</Button>
                                     <Button type="primary" danger onClick={handleStopAdding}>Отмена</Button></> : <Button type="primary" block onClick={handleStartAdding}>Добавить</Button> }
@@ -113,14 +115,14 @@ function Main() {
                             <Col span={8}>
                                 <Card
                                     style={{ width: '100%' }}
-                                    title={ isChangingName[1] & isChangingName[0] === i.product_id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
+                                    title={ isChangingName[1] & isChangingName[0] === i.id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
                                         Api.patch(`/seller/category/${i.id}`, { title_ru: newName })
                                         // window.location.reload();
-                                    }}><CheckOutlined /></Button> </> : i.title_ru}
+                                    }}><CheckOutlined /></Button> </> : `${i.title_ru} - ${i.title_eng}`}
                                     extra={
                                         <>
                                             <Link style={{ marginRight: 20 }} to={`/${i.id}`}>Перейти</Link>
-                                            { isChangingName[1] & isChangingName[0] === i.product_id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.product_id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
+                                            { isChangingName[1] & isChangingName[0] === i.id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
                                             
                                             <Button onClick={() => {
                                                 Api.delete(`/seller/category/${i.id}`).then(() => {
@@ -133,6 +135,8 @@ function Main() {
                                 >
                                     <p>{`Количество подтипов: ${i.count_subcategories}`}</p>
                                     <p>{`Описание: ${i.description}`}</p>
+                                    <p>{`Сообщение: ${i.message}`}</p>
+                                    <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                 </Card>
                             </Col>
                             <Col span={8}>

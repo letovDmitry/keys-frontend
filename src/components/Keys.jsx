@@ -22,6 +22,7 @@ function Keys() {
     const { id, sid } = useParams()
     
     const options = [ 'one', 'many' ]
+    console.log(content)
     
     useEffect(() => {
         console.log(sid, id)
@@ -51,7 +52,7 @@ function Keys() {
                                     <TextArea value={content} onChange={e => setContent(e.target.value)} style={{ marginTop: 10 }} placeholder="Введите ключи" autoSize />
                                     <Button onClick={() => setIsAddingKeys(false)} style={{ marginRight: 10, marginTop: 10 }}>x</Button>
                                     <Button onClick={() => {
-                                        Api.post(`/seller/category/${id}/subcategory/${sid}/${howManyKeys}`, { content: content.replace(' ', '\n ') } )
+                                        Api.post(`/seller/category/${id}/subcategory/${sid}/${howManyKeys}`, { content: content } )
                                         setContent('')
                                         window.location.reload()
                                     }}>+</Button>
@@ -60,7 +61,6 @@ function Keys() {
                             :
 
                             <Button type="primary" onClick={() => setIsAddingKeys(true)} style={{ width: '100%', marginTop: 10 }}>Добавить</Button>
-                            // <></>
 
                         }
                     </Col>
@@ -123,6 +123,7 @@ function Keys() {
                                     }
                                 >
                                     <p>{i.content}</p>
+                                    <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                 </Card>
                             </Col>
                             <Col span={8}>

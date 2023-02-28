@@ -21,7 +21,7 @@ function App() {
     if (token) {
       Api.get('seller/me').then(r => setIsAuthorized(true)).catch(e => {
         setIsAuthorized(false)
-        localStorage.deleteItem('jwt')
+        localStorage.removeItem('jwt')
       })
 
     } else {
