@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Col, Row, Button, Input } from 'antd'
+import { Card, Col, Row, Button, Input, Popconfirm } from 'antd'
 import { Api } from '../api/api'
 import { Link } from 'react-router-dom'
 import { SettingOutlined, UserOutlined, CloseOutlined, PlusOutlined, CheckOutlined, HistoryOutlined } from '@ant-design/icons'
@@ -58,6 +58,14 @@ function Main() {
 
         Api.post('/profile/settings', { seller_id: parseInt(sellerid), seller_key: sellerkey }).then(r => console.log(r.data))
     }
+
+    const confirm = (id) => {
+        Api.delete(`/seller/category/${id}`).then(() => {
+            window.location.reload()
+    })}
+      
+      const cancel = (e) => {};
+
     return (
         <>
             <div>
@@ -124,11 +132,14 @@ function Main() {
                                             <Link style={{ marginRight: 20 }} to={`/${i.id}`}>Перейти</Link>
                                             { isChangingName[1] & isChangingName[0] === i.id ? <Button onClick={() => setIsChangingName([0, false])} style={{ marginRight: 10 }} danger>Отмена</Button> : <Button onClick={() => setIsChangingName([i.id, true])} style={{ marginRight: 10 }} danger>Изменить</Button>}
                                             
-                                            <Button onClick={() => {
-                                                Api.delete(`/seller/category/${i.id}`).then(() => {
-                                                    window.location.reload()
-                                                })
-                                            }} danger>Удалить</Button>
+                                            <Popconfirm
+                                                title="Удалить"
+                                                onConfirm={() => confirm(i.id)}
+                                                onCancel={cancel}
+                                                okText="Да"
+                                                cancelText="Нет"
+                                            ><Button danger>Удалить</Button></Popconfirm>
+                                            
                                         </>
                                 
                                 }

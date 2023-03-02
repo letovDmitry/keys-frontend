@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Card, Col, Row, Button, Input } from 'antd'
+import { Card, Col, Row, Button, Input, Popconfirm } from 'antd'
 import { Api } from '../api/api'
 import { CheckOutlined, ClearOutlined, CloseOutlined } from '@ant-design/icons'
 
@@ -38,7 +38,7 @@ function Product() {
         setNameRu('')
         setNameEng('')
 
-        window.location.reload()
+        // window.location.reload()
     }
 
     const handleStartAdding = () => {
@@ -48,6 +48,13 @@ function Product() {
     const handleStopAdding = () => {
         setIsAdding(false)
     }
+
+    const confirm = (id1) => {
+        Api.delete(`/seller/category/${id}/subcategory/${id1}`)
+        window.location.reload()
+    }
+      
+    const cancel = (e) => {};
 
     return (
         <>
@@ -129,11 +136,14 @@ function Product() {
                                                     setIsChangingName([i.id, true])
                                                 }} danger style={{ marginRight: 10 }}>Изменить</Button>
                                             }
-
-                                                <Button onClick={() => {
-                                                    Api.delete(`/seller/category/${id}/subcategory/${i.id}`)
-                                                    window.location.reload()
-                                                }} danger style={{ marginRight: 10 }}>Удалить</Button>
+                                                <Popconfirm
+                                                    title="Удалить"
+                                                    onConfirm={() => confirm(i.id)}
+                                                    onCancel={cancel}
+                                                    okText="Да"
+                                                    cancelText="Нет"
+                                                ><Button danger style={{ marginRight: 10 }}>Удалить</Button></Popconfirm>
+                                                
                                             
                                             <Link to={`/${id}/keys/${i.id}`}>Перейти</Link>
 

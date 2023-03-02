@@ -122,7 +122,7 @@ function Keys() {
                                         </>
                                     }
                                 >
-                                    <p>{i.content}</p>
+                                    {i.content.split('\n').map(k => <p>{k}</p>)}
                                     <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                 </Card>
                             </Col>
