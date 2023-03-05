@@ -2,27 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Card, Col, Row, Button, Input, Popconfirm } from 'antd'
 import { Api } from '../api/api'
-import { CheckOutlined, ClearOutlined, CloseOutlined } from '@ant-design/icons'
+import { CheckOutlined } from '@ant-design/icons'
 
 
 
 function Product() {
     const [ subtypes, setSubtypes ] = useState([])
     const [ isAdding, setIsAdding ] = useState(false)
-    const [ isAddingKey, setIsAddingKey ] = useState([false, 0])
     const [ nameRu, setNameRu ] = useState('')
     const [ nameEng, setNameEng ] = useState('')
-    const [ key, setKey ] = useState('')
     const [ title, setTitle ] = useState('')
     const [ digiid, setDigiid ] = useState('')
 
     const [ isChangingName, setIsChangingName ] = useState([0, false])
 
     const [ newName, setNewName ] = useState('')
+    const [ newSubitemId, setNewSubitemId ] = useState('')
 
-    const [ isChangingKey, setIsChangingKey ] = useState([0, false])
-
-    const [ newKey, setNewKey ] = useState('')
 
     const { id } = useParams()
     
@@ -115,7 +111,7 @@ function Product() {
                                 <Card
                                     style={{ width: '100%' }}
                                     title={ (isChangingName[1] & (isChangingName[0] === i.id)) ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
-                                        Api.patch(`seller/category/${id}/subcategory/${i.id}`, { title: newName })
+                                        Api.patch(`seller/category/${id}/subcategory/${i.id}`, { title_ru: newName, subitem_id: newSubitemId })
                                         console.log(id)
                                         console.log(i.id)
                                         setIsChangingName([0, false])
@@ -154,6 +150,7 @@ function Product() {
                                         </>
                                     }
                                 >
+                                    <p>{isChangingName[1] & isChangingName[0] === i.id ? <Input onChange={(e) => setNewSubitemId(e.target.value)} value={newSubitemId} style={{ width: 150 }} /> : `SubitemID: ${i.subitem_id}`}</p>
                                     <b>Ключи: {i.count_products}</b>
                                     <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                     {/* { i.keys ? i.keys.map(k => <>

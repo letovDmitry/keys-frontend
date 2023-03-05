@@ -23,6 +23,8 @@ function Main() {
     const [ isChangingName, setIsChangingName ] = useState([0, false])
 
     const [ newName, setNewName ] = useState('')
+    const [ newDescription, setNewDescription ] = useState('')
+    const [ newMessage, setNewMessage ] = useState('')
 
     useEffect(() => {
         Api.get('/seller/category').then(r => setProducts(r.data))
@@ -124,8 +126,8 @@ function Main() {
                                 <Card
                                     style={{ width: '100%' }}
                                     title={ isChangingName[1] & isChangingName[0] === i.id ? <><Input onChange={(e) => setNewName(e.target.value)} value={newName} style={{ width: 150 }} /> <Button onClick={() => {
-                                        Api.patch(`/seller/category/${i.id}`, { title_ru: newName })
-                                        // window.location.reload();
+                                        Api.patch(`/seller/category/${i.id}`, { title_ru: newName, description: newDescription, message: newMessage })
+                                        window.location.reload();
                                     }}><CheckOutlined /></Button> </> : `${i.title_ru} - ${i.title_eng}`}
                                     extra={
                                         <>
@@ -145,8 +147,8 @@ function Main() {
                                 }
                                 >
                                     <p>{`Количество подтипов: ${i.count_subcategories}`}</p>
-                                    <p>{`Описание: ${i.description}`}</p>
-                                    <p>{`Сообщение: ${i.message}`}</p>
+                                    <p>{isChangingName[1] & isChangingName[0] === i.id ? <Input onChange={(e) => setNewDescription(e.target.value)} value={newDescription} style={{ width: 150 }} /> : `Описание: ${i.description}`}</p>
+                                    <p>{isChangingName[1] & isChangingName[0] === i.id ? <Input onChange={(e) => setNewMessage(e.target.value)} value={newMessage} style={{ width: 150 }} /> : `Сообщение: ${i.message}`}</p>
                                     <p>{`Дата: ${i.created_at.split('.')[0]}`}</p>
                                 </Card>
                             </Col>
