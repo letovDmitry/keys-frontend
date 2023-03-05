@@ -34,7 +34,7 @@ function Product() {
         setNameRu('')
         setNameEng('')
 
-        // window.location.reload()
+        window.location.reload()
     }
 
     const handleStartAdding = () => {

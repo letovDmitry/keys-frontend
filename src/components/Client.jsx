@@ -21,7 +21,7 @@ function Client() {
             
             <Card
                 style={{ width: '100%', backgroundColor: '#408AD2', color: 'white' }}
-                title={<p style={{ color: 'white' }}>Номер заказа: {product.keys ? product.keys[0].unique_inv: 0}</p>}
+                title={<p style={{ color: 'white' }}>Номер заказа: {product.keys ? product.keys[0].unique_inv: 0}, Уникальный код: {product.keys ? product.keys[0].unique_code: 0}</p>}
 
                 extra={ <Button><a href='https://oplata.info/info/'>Оставить отзыв</a></Button> }
                                     
@@ -35,9 +35,9 @@ function Client() {
                     
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
 
-                            <p style={{ fontSize: 15 }}>{`Дата: ${i.date_check}`}   •   Продукт: {`${i.category} • Подтип: ${i.subcategory}`}</p>
+                            <p style={{ fontSize: 15 }}>{`Дата: ${i.date_check}`}   •   Продукт: {`${i.category_name} • Подтип: ${i.subcategory_name}`}</p>
                         </div>
-                        <p>{i.content}</p>
+                        <p>Ключ: {i.content_key}</p>
                     </>) : <></> }
                 
                 </Card>
